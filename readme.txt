@@ -3,8 +3,8 @@ Contributors: edwardbock,mkernel
 Donate link: http://palasthotel.de/
 Tags: grid, landingpage, editor, admin, page, containerist
 Requires at least: 4.0
-Tested up to: 4.1
-Stable tag: 1.3
+Tested up to: 4.3
+Stable tag: 1.3.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -29,6 +29,9 @@ Extends the Grid Plugin with Facebook and Twitter Boxes.
 
 
 == Changelog ==
+
+= 1.3 =
+* WP 4.3 ready
 
 = 1.3 =
 * Moved from Grid to a separate Plugin
