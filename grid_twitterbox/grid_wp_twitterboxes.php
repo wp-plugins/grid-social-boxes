@@ -9,7 +9,7 @@
 class grid_twitter_box extends grid_static_base_box {
 
 	public function __construct() {
-		$this->content = new Stdclass();
+		parent::__construct();
 		$this->content->limit = 5;
 		$this->content->user = '';
 		$this->content->retweet = 'timeline';
@@ -39,7 +39,8 @@ class grid_twitter_box extends grid_static_base_box {
 
 	public function build( $editmode ) {
 		if ( $editmode ) {
-			return 'Twitter Box';
+			$this->content->title = t("Twitter by User");
+			return $this->content;
 		} else {
 			$prebuild = $this->prebuild();
 			if ( $prebuild != null ) {
@@ -68,7 +69,8 @@ class grid_twitter_box extends grid_static_base_box {
 	}
 
 	public function contentStructure () {
-		return array(
+		$cs = parent::contentStructure();
+		return array_merge($cs , array(
 			array(
 				'key' => 'limit',
 				'type' => 'number',
@@ -94,7 +96,7 @@ class grid_twitter_box extends grid_static_base_box {
 					),
 				)
 			),
-		);
+		));
 	}
 
 	public function metaSearch( $criteria, $query ) {
@@ -137,7 +139,8 @@ class grid_twitter_hashtag_box extends grid_twitter_box {
 
 	public function build( $editmode ) {
 		if ( $editmode ) {
-			return 'Twitter Hashtag Box';
+			$this->content->title = "Twitter by Hashtag";
+			return $this->content;
 		} else {
 			return parent::build( $editmode );
 		}

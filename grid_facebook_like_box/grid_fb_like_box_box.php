@@ -13,13 +13,13 @@ class grid_fb_like_box_box extends grid_static_base_box {
 	}
 
 	public function __construct() {
-		$this->content = new Stdclass();
+		parent::__construct();
 		$this->content->fb_page     = '';
 		$this->content->appid       = '';
 		$this->content->show_faces  = 'true';
 		$this->content->show_header = 'true';
 		$this->content->datastream  = 'false';
-    $this->content->language = "de_DE";
+    	$this->content->language = "de_DE";
 		$this->content->colorscheme = 'light';
 		$this->content->show_border = 'true';
 		$this->content->force_wall  = 'false';
@@ -27,7 +27,7 @@ class grid_fb_like_box_box extends grid_static_base_box {
 
 	public function build($editmode) {
 		if ( $editmode ) {
-			return t( 'Facebook Like Box' ).': <br/>'.$this->content->fb_page;
+			return $this->content;
 		} else {
 			$fb_page = $this->content->fb_page;
 			$appid = '';
@@ -35,8 +35,10 @@ class grid_fb_like_box_box extends grid_static_base_box {
 			$show_faces = $this->content->show_faces;
 			$show_header = $this->content->show_header;
 			$datastream = $this->content->datastream;
-      if(!isset($this->content->language)) { $this->content->language = "de_DE"; }
-      $language = $this->content->language;
+			$language = "de_DE";
+      		if(isset($this->content->language) && !empty($this->content->language)) { 
+      			$language = $this->content->language; 
+      		}
 			$colorscheme = $this->content->colorscheme;
 			$show_border = $this->content->show_border;
 			$force_wall = $this->content->force_wall;
@@ -60,11 +62,10 @@ class grid_fb_like_box_box extends grid_static_base_box {
 			  var js = d.getElementsByTagName(s)[0];
 			  if (d.getElementById(id)) return;
 			  js = d.createElement(s); js.id = id;
-			  js.src = '//connect.facebook.net/<?= $language; ?>/all.js#xfbml=1&appId=<?php echo $appid; ?>';
+			  js.src = '//connect.facebook.net/<?php echo $language; ?>/all.js#xfbml=1&appId=<?php echo $appid; ?>';
 			  d.head.insertBefore(js, document.head.childNodes[0])
 			}(document, 'script', 'facebook-jssdk'));
 			</script>
-			
 			<div 
 			class="fb-like-box" 
 			data-href="<?php echo $fb_page; ?>" 
@@ -73,7 +74,6 @@ class grid_fb_like_box_box extends grid_static_base_box {
 			data-header="<?php echo $show_header; ?>" 
 			data-stream="<?php echo $datastream; ?>" 
 			data-show-border="<?php echo $show_border; ?>"></div>
-
 			<?php
 			$output = ob_get_contents();
 			ob_end_clean();
@@ -82,7 +82,8 @@ class grid_fb_like_box_box extends grid_static_base_box {
 	}
 
 	public function contentStructure () {
-		return array(
+		$cs = parent::contentStructure();
+		return array_merge( $cs, array(
 			array(
 				'key' => 'fb_page',
 				'label' => t( 'Facebook page' ),
@@ -215,6 +216,6 @@ class grid_fb_like_box_box extends grid_static_base_box {
 					),
 				),
 			),
-		);
+		));
 	}
 }
